@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI作为科学协作者：从生物学到黑洞，ChatGPT正在加速研究｜中文网页整理版</title>
+  <style>
+    :root {
+      --bg: #f6f9ff;
+      --surface: rgba(255,255,255,.86);
+      --surface-strong: #ffffff;
+      --ink: #0f172a;
+      --muted: #526179;
+      --soft: #e6eefc;
+      --line: #d8e3f7;
+      --blue: #1f6feb;
+      --blue-dark: #0b4db3;
+      --cyan: #22c7ff;
+      --green: #00a36c;
+      --amber: #f59e0b;
+      --shadow: 0 20px 60px rgba(30, 72, 143, .12);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(35, 119, 255, .16), transparent 28%),
+        radial-gradient(circle at 85% 12%, rgba(34, 199, 255, .16), transparent 30%),
+        linear-gradient(180deg, #f8fbff 0%, var(--bg) 46%, #eef5ff 100%);
+      line-height: 1.72;
+    }
+    a { color: var(--blue-dark); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .hero {
+      min-height: 92vh;
+      display: grid;
+      place-items: center;
+      padding: 72px 0 44px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 34px 5% auto auto;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: conic-gradient(from 120deg, rgba(31,111,235,.18), rgba(34,199,255,.06), rgba(31,111,235,.16));
+      filter: blur(8px);
+      opacity: .8;
+      z-index: -1;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 44px; align-items: center; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.72);
+      color: var(--blue-dark);
+      font-weight: 700;
+      box-shadow: 0 8px 30px rgba(31,111,235,.08);
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 6px rgba(31,111,235,.12); }
+    h1 {
+      margin: 24px 0 18px;
+      font-size: clamp(38px, 5.6vw, 72px);
+      line-height: 1.03;
+      letter-spacing: -.045em;
+    }
+    .subtitle {
+      font-size: clamp(18px, 2.2vw, 24px);
+      color: #334155;
+      max-width: 760px;
+      margin: 0 0 28px;
+    }
+    .meta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+    .pill {
+      padding: 9px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.78);
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 14px;
+    }
+    .summary-card {
+      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.78));
+      border: 1px solid rgba(31,111,235,.12);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      padding: 30px;
+      backdrop-filter: blur(14px);
+      position: relative;
+      overflow: hidden;
+    }
+    .summary-card::after {
+      content: "";
+      position: absolute;
+      right: -80px; top: -90px;
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(31,111,235,.18), transparent 62%);
+      z-index: 0;
+    }
+    .summary-card > * { position: relative; z-index: 1; }
+    .summary-card h2 { margin-top: 0; font-size: 26px; }
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 22px; }
+    .stat {
+      background: #f7fbff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+    }
+    .stat b { display: block; font-size: 26px; color: var(--blue-dark); letter-spacing: -.02em; }
+    .stat span { display: block; color: var(--muted); font-size: 13px; line-height: 1.45; margin-top: 4px; }
+    nav.toc {
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(216,227,247,.75);
+      border-bottom: 1px solid rgba(216,227,247,.75);
+      background: rgba(246,249,255,.82);
+    }
+    nav.toc .wrap { display: flex; gap: 14px; overflow-x: auto; padding: 12px 0; }
+    nav.toc a {
+      white-space: nowrap;
+      color: #3b4a60;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: 999px;
+    }
+    nav.toc a:hover { background: #fff; text-decoration: none; color: var(--blue-dark); }
+    section { padding: 78px 0; }
+    section.compact { padding-top: 38px; }
+    .section-head { margin-bottom: 30px; }
+    .eyebrow { color: var(--blue); font-weight: 800; text-transform: uppercase; letter-spacing: .08em; font-size: 13px; }
+    h2 {
+      margin: 8px 0 12px;
+      font-size: clamp(28px, 3.5vw, 44px);
+      line-height: 1.18;
+      letter-spacing: -.035em;
+    }
+    h3 { font-size: 24px; margin: 0 0 12px; line-height: 1.25; }
+    h4 { font-size: 18px; margin: 18px 0 8px; color: #163b79; }
+    p { margin: 0 0 14px; color: #2f3a4c; }
+    .lead { font-size: 18px; color: #314157; max-width: 920px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+    .card.strong { background: var(--surface-strong); }
+    .callout {
+      border-left: 5px solid var(--blue);
+      background: linear-gradient(90deg, rgba(31,111,235,.10), rgba(255,255,255,.75));
+      border-radius: 18px;
+      padding: 20px 22px;
+      margin: 22px 0;
+      box-shadow: 0 12px 40px rgba(31,111,235,.08);
+    }
+    .callout b { color: var(--blue-dark); }
+    .quote {
+      font-size: 18px;
+      line-height: 1.78;
+      border-left: 5px solid var(--cyan);
+      padding: 18px 22px;
+      background: #f7fbff;
+      border-radius: 18px;
+      color: #22324a;
+    }
+    ul, ol { margin: 8px 0 0 20px; padding: 0; color: #2f3a4c; }
+    li { margin: 8px 0; }
+    .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 24px 0; }
+    .kpi {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 12px 32px rgba(31,111,235,.08);
+    }
+    .kpi .num { display: block; font-size: 30px; font-weight: 850; color: var(--blue-dark); letter-spacing: -.04em; }
+    .kpi .label { color: var(--muted); font-size: 14px; line-height: 1.45; }
+    .chart {
+      padding: 22px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      margin: 18px 0 28px;
+    }
+    .chart-title { font-size: 16px; font-weight: 850; margin-bottom: 15px; color: #10233f; }
+    .bar-row { display: grid; grid-template-columns: minmax(190px, 300px) 1fr 56px; gap: 12px; align-items: center; margin: 9px 0; }
+    .bar-label { color: #2c3749; font-size: 13px; line-height: 1.25; text-align: right; }
+    .bar-track { height: 12px; border-radius: 999px; background: #e8f0ff; overflow: hidden; }
+    .bar { height: 100%; width: var(--w); border-radius: 999px; background: linear-gradient(90deg, var(--blue), #4aa3ff); }
+    .bar-val { font-size: 13px; color: #506078; font-variant-numeric: tabular-nums; }
+    .table-wrap { overflow-x: auto; border-radius: 18px; border: 1px solid var(--line); background: #fff; box-shadow: var(--shadow); }
+    table { width: 100%; border-collapse: collapse; min-width: 720px; }
+    th, td { padding: 14px 16px; border-bottom: 1px solid #edf2fb; text-align: left; vertical-align: top; }
+    th { background: #f1f6ff; color: #133a76; font-weight: 850; }
+    td { color: #2f3a4c; }
+    tr:last-child td { border-bottom: none; }
+    .profile {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 20px;
+      align-items: start;
+      margin-bottom: 22px;
+    }
+    .avatar {
+      width: 96px; height: 96px; border-radius: 24px;
+      display: grid; place-items: center;
+      font-weight: 900; font-size: 34px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      box-shadow: 0 16px 34px rgba(31,111,235,.22);
+    }
+    .tag {
+      display: inline-block;
+      margin: 0 8px 10px 0;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #edf5ff;
+      color: #1153ad;
+      font-size: 12px;
+      font-weight: 750;
+    }
+    .timeline { position: relative; padding-left: 24px; }
+    .timeline::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+    .step { position: relative; margin: 0 0 22px; }
+    .step::before { content: ""; position: absolute; left: -23px; top: 8px; width: 12px; height: 12px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 5px rgba(31,111,235,.13); }
+    .footer {
+      padding: 44px 0 60px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255,255,255,.58);
+    }
+    .note { font-size: 13px; color: #667389; }
+    @media (max-width: 900px) {
+      .hero-grid, .grid-2, .grid-3, .grid-4, .kpi-row { grid-template-columns: 1fr; }
+      .stat-grid { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: 1fr; gap: 6px; }
+      .bar-label { text-align: left; }
+      .profile { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="badge"><span class="dot"></span>OpenAI 报告中文网页整理版 · 2026年1月</div>
+        <h1>AI作为科学协作者</h1>
+        <p class="subtitle">从生物学到黑洞，ChatGPT 正在加速研究：科学家、数学家和工程师如何把前沿 AI 作为高可用的技术协作伙伴。</p>
+        <div class="meta">
+          <span class="pill">原题：AI as a Scientific Collaborator</span>
+          <span class="pill">主题：AI for Science</span>
+          <span class="pill">形式：中文翻译 + 网页化重排</span>
+        </div>
+      </div>
+      <div class="summary-card">
+        <h2>中文摘要</h2>
+        <p>报告认为，科学研究正在进入一个由前沿 AI（Frontier AI）协助的加速阶段。ChatGPT 已被研究者用于文献综合、代码生成与调试、数据分析、数学推导、仿真支持和实验规划等日常科研流程。OpenAI 基于 2025 年匿名对话样本的内部分析称，ChatGPT 上高级科学与数学主题的平均周消息量从 570 万增长到近 840 万，约有 130 万名周活用户讨论高级科学与数学问题。</p>
+        <p>报告的核心判断是：AI 的近期价值并不只在于给出单次答案，而在于成为“高通量思想、计算与结构化推理伙伴”，帮助研究者更快地从假设走向测试，并在数学、物理、化学、生物等领域形成可复用的工作流。</p>
+        <div class="stat-grid">
+          <div class="stat"><b>840万</b><span>高级科学与数学主题的平均每周消息量</span></div>
+          <div class="stat"><b>130万</b><span>讨论高级科学与数学主题的周活用户</span></div>
+          <div class="stat"><b>+47%</b><span>2025 年高级科学/数学消息量增长幅度</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <div class="wrap">
+      <a href="#why">为何重要</a>
+      <a href="#scale">使用规模</a>
+      <a href="#math">数学前沿</a>
+      <a href="#science">科学前沿</a>
+      <a href="#cases">案例画像</a>
+      <a href="#policy">政策建议</a>
+      <a href="#about">关于OpenAI</a>
+    </div>
+  </nav>
+
+  <section id="why" class="compact">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Introduction</div>
+        <h2>为什么 AI for Science 值得重视</h2>
+        <p class="lead">OpenAI 在报告开篇强调，AI 正在从“信息工具”变成科研协作基础设施：它能够帮助研究者生成洞察、加快科学发现，并把这些洞察转化为现实影响。</p>
+      </div>
+      <div class="grid-3">
+        <div class="card strong"><h3>科研流程中的新工具</h3><p>研究者、学生、STEM 教师和工程师已经在使用 AI 阅读并综合技术文献，调试和编写代码，分析数据，并规划实验。</p></div>
+        <div class="card strong"><h3>少数科学家，巨大影响</h3><p>报告引用 UNESCO 的表述称，全球仅约 0.1% 的人口自认为科学家，但科学研究对健康、繁荣和韧性未来具有超比例影响。</p></div>
+        <div class="card strong"><h3>基础研究的长周期价值</h3><p>量子力学、晶体管、GPS 等例子说明，科学突破往往源于当时尚不清楚商业回报的基础研究，却能在数十年后支撑庞大产业。</p></div>
+      </div>
+
+      <div class="callout"><b>核心判断：</b>现代科研的瓶颈既是认知性的，也是后勤性的：海量文献理解、思想到数学与代码的转换、分析与仿真的搭建、计算检查、设计空间搜索，以及下一步实验选择。AI 如果使用得当，可以成为“高通量”的思考、计算与结构化推理伙伴。</div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>科研生产率压力</h3>
+          <p>报告指出，在许多领域，继续取得进展正变得更困难。经济学家和研究分析师谈到“研究生产率”下降：产出同等数量洞察所需的人、时间与资金越来越多。</p>
+          <p>半导体是典型例子。为了维持摩尔定律，即集成电路中的晶体管数量约每两年翻倍，今天所需研究人员数量估计已超过 1970 年代初的 18 倍。</p>
+        </div>
+        <div class="card">
+          <h3>医学转化滞后</h3>
+          <p>科学进步显著延长了寿命：全球预期寿命从 1900 年约 32 岁提升到 2023 年约 73 岁，美国则超过 78 岁。但疾病负担依然沉重。</p>
+          <p>报告提到，非传染性疾病仍占全球死亡的约 74%；在美国，从靶点发现到新药获批平均需要 10-15 年，患者等待新疗法的时间依然漫长。</p>
+        </div>
+      </div>
+
+      <div class="quote">OpenAI for Science 副总裁 Kevin Weil 在报告中表示：AI 正越来越多地被用作科学协作者，其影响正在真实研究场景中增长。更多研究者开始用高级推理系统推进开放问题、解释复杂数据，并在实验工作中更快迭代；虽然仍处早期，但采用速度和工作质量显示科学可能正进入新的加速阶段。</div>
+
+      <div class="card strong">
+        <h3>报告覆盖的四个问题</h3>
+        <ol>
+          <li>AI 工具如何被用于日常科研流程，包括文献综合、代码生成与调试、数据分析、仿真支持和实验规划。</li>
+          <li>早期结果如何显示 AI 支持新突破的潜力。</li>
+          <li>不同学科的科学家如何使用 ChatGPT 推进本领域研究。</li>
+          <li>如何通过政策支持科学与数学领域的持续 AI 进展。</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="scale">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Scale</div>
+        <h2>ChatGPT 上科学与数学工作的规模</h2>
+        <p class="lead">报告将一部分研究者用户描述为“小而重要”的群体：他们使用 OpenAI 模型进行高级数学、技术推导、工程仿真与建模等复杂问题求解。</p>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><span class="num">570万 → 840万</span><span class="label">2025 年，高级科学与数学主题平均周消息量从 570 万增长到近 840 万。</span></div>
+        <div class="kpi"><span class="num">130万</span><span class="label">截至 2026 年 1 月，约 130 万周活用户讨论高级科学与数学主题。</span></div>
+        <div class="kpi"><span class="num">3.5×</span><span class="label">高级科学与数学用户发送消息量约为基线用户的 3.5 倍。</span></div>
+        <div class="kpi"><span class="num">12×</span><span class="label">这类用户发送与编码相关消息的频率接近普通用户的 12 倍。</span></div>
+      </div>
+
+      <div class="chart">
+        <div class="chart-title">高级研究按学科分布（2025，硬科学；物理科学拆分）</div>
+        <div class="bar-row"><div class="bar-label">计算机科学、数据科学与 AI</div><div class="bar-track"><div class="bar" style="--w: 99%;"></div></div><div class="bar-val">19.8%</div></div>
+        <div class="bar-row"><div class="bar-label">生物医学与生命科学</div><div class="bar-track"><div class="bar" style="--w: 88%;"></div></div><div class="bar-val">17.6%</div></div>
+        <div class="bar-row"><div class="bar-label">工程与应用技术</div><div class="bar-track"><div class="bar" style="--w: 60%;"></div></div><div class="bar-val">12.0%</div></div>
+        <div class="bar-row"><div class="bar-label">数学、统计与运筹研究</div><div class="bar-track"><div class="bar" style="--w: 55%;"></div></div><div class="bar-val">10.9%</div></div>
+        <div class="bar-row"><div class="bar-label">临床与健康科学</div><div class="bar-track"><div class="bar" style="--w: 49%;"></div></div><div class="bar-val">9.8%</div></div>
+        <div class="bar-row"><div class="bar-label">心理学与神经科学</div><div class="bar-track"><div class="bar" style="--w: 45%;"></div></div><div class="bar-val">8.9%</div></div>
+        <div class="bar-row"><div class="bar-label">化学与材料科学</div><div class="bar-track"><div class="bar" style="--w: 41%;"></div></div><div class="bar-val">8.1%</div></div>
+        <div class="bar-row"><div class="bar-label">物理与天文学</div><div class="bar-track"><div class="bar" style="--w: 31%;"></div></div><div class="bar-val">6.1%</div></div>
+        <div class="bar-row"><div class="bar-label">地球、环境与地理空间科学</div><div class="bar-track"><div class="bar" style="--w: 18%;"></div></div><div class="bar-val">3.6%</div></div>
+        <div class="bar-row"><div class="bar-label">跨学科/不明确</div><div class="bar-track"><div class="bar" style="--w: 17%;"></div></div><div class="bar-val">3.3%</div></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>研究者实际如何使用 ChatGPT</h3>
+          <p>科学家、数学家和工程师把 ChatGPT 当作高度可用的技术协作者：迭代计算、把想法转换为代码、质询假设，并把复杂材料压缩成可操作的心智模型。</p>
+          <p>OpenAI 的分析将“高级硬科学提示”定义为以研究为导向、需要研究生或研究级专业能力才能胜任回答的问题。</p>
+        </div>
+        <div class="card">
+          <h3>任务聚类</h3>
+          <ul>
+            <li>编码：起草、重写、调试代码。</li>
+            <li>数据分析：清洗合并数据集，运行统计，解释结果。</li>
+            <li>数学推理：推导、证明策略、代数检查、长计算、形式体系转换。</li>
+            <li>文献综述与综合：寻找参考文献，理解最新工作。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="chart">
+        <div class="chart-title">高级用户最常用能力 Top 10</div>
+        <div class="bar-row"><div class="bar-label">写作与沟通｜文档与技术写作</div><div class="bar-track"><div class="bar" style="--w: 100%;"></div></div><div class="bar-val">20.5%</div></div>
+        <div class="bar-row"><div class="bar-label">信息｜主题概览</div><div class="bar-track"><div class="bar" style="--w: 54%;"></div></div><div class="bar-val">11.0%</div></div>
+        <div class="bar-row"><div class="bar-label">操作指引｜技术/数字/电子</div><div class="bar-track"><div class="bar" style="--w: 31%;"></div></div><div class="bar-val">6.3%</div></div>
+        <div class="bar-row"><div class="bar-label">分析与计算｜科学数学与工程计算</div><div class="bar-track"><div class="bar" style="--w: 26%;"></div></div><div class="bar-val">5.4%</div></div>
+        <div class="bar-row"><div class="bar-label">编码｜规划、设计与创建</div><div class="bar-track"><div class="bar" style="--w: 22%;"></div></div><div class="bar-val">4.6%</div></div>
+        <div class="bar-row"><div class="bar-label">编码｜调试与修复</div><div class="bar-track"><div class="bar" style="--w: 20%;"></div></div><div class="bar-val">4.2%</div></div>
+        <div class="bar-row"><div class="bar-label">教育与学习｜学术论文复核与发展</div><div class="bar-track"><div class="bar" style="--w: 17%;"></div></div><div class="bar-val">3.5%</div></div>
+        <div class="bar-row"><div class="bar-label">写作与沟通｜翻译</div><div class="bar-track"><div class="bar" style="--w: 15%;"></div></div><div class="bar-val">3.0%</div></div>
+        <div class="bar-row"><div class="bar-label">编码｜修改与扩展</div><div class="bar-track"><div class="bar" style="--w: 14%;"></div></div><div class="bar-val">2.8%</div></div>
+        <div class="bar-row"><div class="bar-label">分析与计算｜数据分析</div><div class="bar-track"><div class="bar" style="--w: 13%;"></div></div><div class="bar-val">2.7%</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="math">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Frontier AI in Mathematics</div>
+        <h2>数学前沿：从竞赛级表现到开放问题</h2>
+        <p class="lead">报告认为，过去两年大语言模型从基础算术的早期不稳定表现，进步到可服务真实数学工作的多步推理。关键变化来自逐步推理、工具集成、测试时计算扩展，以及可验证结果驱动的训练。</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card"><h3>近期进展</h3><p>2025 年至 2026 年初，影响最大的方向是测试时计算扩展（test-time compute scaling），也被称为“慢思考”（slow thinking）：模型不快速锁定单一路径，而是花更多算力探索备选方案并自检。</p></div>
+        <div class="card"><h3>当前能力</h3><p>报告称，GPT-5.2 Thinking 在 AIME 2025（American Invitational Mathematics Examination）中无需外部工具取得满分；GPT-5.2 系列已从竞赛级表现推进到数学发现相关工作。</p></div>
+        <div class="card"><h3>形式化验证</h3><p>GPT-5.2 与 Lean 等证明助手结合，用形式化语言把自然语言证明转化为可由计算机逐步检查的证明，从而降低“看似正确但存在细微漏洞”的风险。</p></div>
+      </div>
+
+      <div class="callout"><b>FrontierMath 与开放问题：</b>报告称，在面向专家的 FrontierMath 基准中，GPT-5.2 Thinking 在 Tiers 1-3 中解决 40.3% 的问题；GPT-5.2 Pro 在最难的 Tier 4 中得分 31%。报告还称，GPT-5.2 通过 Aristotle 与 Lean 等工具参与解决了若干 Erdős 问题，并由 Terence Tao 验证。</div>
+
+      <div class="grid-2">
+        <div class="card strong">
+          <h3>Erdős 问题与 AI 解法</h3>
+          <p>Paul Erdős（1913-1996）是一位匈牙利数学家，他提出的大量问题和猜想横跨从看似简单的谜题到今天仍难以攻克的问题。报告把这些问题称为现代数学的“路标”：它们澄清未知、孕育研究计划，并吸引多代数学家走向知识边界。</p>
+          <p>报告称，2026 年初，GPT-5.2 借助 Aristotle 与 Lean 参与了若干开放 Erdős 问题的解决，其中 #281、#728、#729 被列为已证明，#397 被列为已证伪。报告也提示，不同 Erdős 问题难度差异巨大。</p>
+        </div>
+        <div class="card strong">
+          <h3>近期潜力</h3>
+          <p>许多重要数学发现可能来自把已知方法正确拼接起来，GPT-5.2 在不少情形下已经可以做到。另一类发现需要发明全新的数学，例如牛顿发明微积分来理解动力学，这仍超出现有 AI 模型。</p>
+          <p>更现实的近期价值在于工作流转型：从模糊问题描述到清晰数学陈述的转换更快，多步推导中遗漏约束更少，计算与证明调试更可靠，越来越多结果可由形式化验证背书。</p>
+        </div>
+      </div>
+
+      <div class="chart">
+        <div class="chart-title">数学、统计与运筹研究中的主题分布</div>
+        <div class="bar-row"><div class="bar-label">结构方程模型与心理测量学</div><div class="bar-track"><div class="bar" style="--w: 100%;"></div></div><div class="bar-val">21.0%</div></div>
+        <div class="bar-row"><div class="bar-label">代数、几何与组合数学</div><div class="bar-track"><div class="bar" style="--w: 58%;"></div></div><div class="bar-val">12.1%</div></div>
+        <div class="bar-row"><div class="bar-label">统计推断与研究设计</div><div class="bar-track"><div class="bar" style="--w: 54%;"></div></div><div class="bar-val">11.3%</div></div>
+        <div class="bar-row"><div class="bar-label">分析与算子理论</div><div class="bar-track"><div class="bar" style="--w: 50%;"></div></div><div class="bar-val">10.5%</div></div>
+        <div class="bar-row"><div class="bar-label">微分方程与动力系统</div><div class="bar-track"><div class="bar" style="--w: 46%;"></div></div><div class="bar-val">9.7%</div></div>
+        <div class="bar-row"><div class="bar-label">随机过程与模拟</div><div class="bar-track"><div class="bar" style="--w: 42%;"></div></div><div class="bar-val">8.9%</div></div>
+        <div class="bar-row"><div class="bar-label">优化与决策方法</div><div class="bar-track"><div class="bar" style="--w: 42%;"></div></div><div class="bar-val">8.9%</div></div>
+        <div class="bar-row"><div class="bar-label">贝叶斯方法与预测</div><div class="bar-track"><div class="bar" style="--w: 31%;"></div></div><div class="bar-val">6.5%</div></div>
+        <div class="bar-row"><div class="bar-label">因果推断</div><div class="bar-track"><div class="bar" style="--w: 19%;"></div></div><div class="bar-val">4.0%</div></div>
+        <div class="bar-row"><div class="bar-label">混合模型与重复测量</div><div class="bar-track"><div class="bar" style="--w: 15%;"></div></div><div class="bar-val">3.2%</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="science">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Frontier AI in Science</div>
+        <h2>科学前沿：物理、化学与生物的混合工作流</h2>
+        <p class="lead">报告认为，在物理、化学、生物等学科中，ChatGPT 类大语言模型（LLM）正越来越多地支持技术推理、工具驱动研究流程和科学写作。与检索工具、可执行工具及专业模型结合后，AI 更像科研流程编排器。</p>
+      </div>
+
+      <div class="callout"><b>GPQA Diamond：</b>报告称，研究生级、由领域专家撰写且“Google-proof”的 GPQA 基准曾显示专家有显著优势。OpenAI 报告称，GPT-5.2 Pro 在 GPQA Diamond 上达到 93.2%，GPT-5.2 Thinking 达到 92.4%，均未启用工具且使用最大推理努力。</div>
+
+      <div class="grid-3">
+        <div class="card strong">
+          <h3>物理学</h3>
+          <p>LLM 被用于国家实验室等大型设施，作为复杂操作栈与内部知识库上的统一层：消化值班日志与告警，从内部文档回答问题，并把任务路由至合适的分析、仿真或控制工具。</p>
+          <p>在理论物理中，模型作为“思维伙伴”压缩研究者认知开销，帮助重构问题、建议中间步骤、快速一致性检查，并在文献尺度上发现跨论文、跨子领域的新联系。</p>
+        </div>
+        <div class="card strong">
+          <h3>化学</h3>
+          <p>化学中的 AI 应用正在从一次性问答转向多步工作流：在自然语言与化学表征之间转换，并借助外部工具验证与检索。Nature Chemistry 2025 年的 ChemBench 收录 2700 多个专家题，报告称领先模型平均超过人类化学家，但仍会在部分基础任务上挣扎并产生过度自信错误。</p>
+          <p>前沿系统往往采用混合流程：通用 LLM 规划多步工作并协调工具，理解分子结构的专业模型负责预测和仿真。</p>
+        </div>
+        <div class="card strong">
+          <h3>生物学</h3>
+          <p>生物学中的 ChatGPT 应用结合自然语言问题、基因组数据库、蛋白质库、生物医学文献，以及代码和检索工具以提高可追踪性和验证性。</p>
+          <p>报告提到，GeneTuring 这一 2025 年基因组学基准显示，通用模型如果直接接入 NCBI API 等权威参考数据，可靠性会提高，并能展示推理过程。</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="chart">
+          <div class="chart-title">物理与天文学主题分布</div>
+          <div class="bar-row"><div class="bar-label">粒子物理与量子场</div><div class="bar-track"><div class="bar" style="--w: 100%;"></div></div><div class="bar-val">24.6%</div></div>
+          <div class="bar-row"><div class="bar-label">引力与时空理论</div><div class="bar-track"><div class="bar" style="--w: 88%;"></div></div><div class="bar-val">21.7%</div></div>
+          <div class="bar-row"><div class="bar-label">凝聚态与材料</div><div class="bar-track"><div class="bar" style="--w: 88%;"></div></div><div class="bar-val">21.7%</div></div>
+          <div class="bar-row"><div class="bar-label">量子信息与测量</div><div class="bar-track"><div class="bar" style="--w: 65%;"></div></div><div class="bar-val">15.9%</div></div>
+          <div class="bar-row"><div class="bar-label">天文学与行星科学</div><div class="bar-track"><div class="bar" style="--w: 41%;"></div></div><div class="bar-val">10.1%</div></div>
+          <div class="bar-row"><div class="bar-label">宇宙学与早期宇宙</div><div class="bar-track"><div class="bar" style="--w: 17%;"></div></div><div class="bar-val">4.3%</div></div>
+        </div>
+        <div class="chart">
+          <div class="chart-title">化学与材料科学主题分布</div>
+          <div class="bar-row"><div class="bar-label">计算化学与模拟</div><div class="bar-track"><div class="bar" style="--w: 100%;"></div></div><div class="bar-val">16.3%</div></div>
+          <div class="bar-row"><div class="bar-label">先进纳米材料与超材料</div><div class="bar-track"><div class="bar" style="--w: 93%;"></div></div><div class="bar-val">15.2%</div></div>
+          <div class="bar-row"><div class="bar-label">材料测试与光谱学</div><div class="bar-track"><div class="bar" style="--w: 80%;"></div></div><div class="bar-val">13.0%</div></div>
+          <div class="bar-row"><div class="bar-label">聚合物与水凝胶</div><div class="bar-track"><div class="bar" style="--w: 80%;"></div></div><div class="bar-val">13.0%</div></div>
+          <div class="bar-row"><div class="bar-label">天然产物与药物设计</div><div class="bar-track"><div class="bar" style="--w: 80%;"></div></div><div class="bar-val">13.0%</div></div>
+          <div class="bar-row"><div class="bar-label">电池与电化学</div><div class="bar-track"><div class="bar" style="--w: 67%;"></div></div><div class="bar-val">10.9%</div></div>
+        </div>
+      </div>
+
+      <div class="chart">
+        <div class="chart-title">生物医学与生命科学主题分布</div>
+        <div class="bar-row"><div class="bar-label">遗传学、基因组学与进化</div><div class="bar-track"><div class="bar" style="--w: 100%;"></div></div><div class="bar-val">15.5%</div></div>
+        <div class="bar-row"><div class="bar-label">植物生物学与农业</div><div class="bar-track"><div class="bar" style="--w: 84%;"></div></div><div class="bar-val">13.0%</div></div>
+        <div class="bar-row"><div class="bar-label">药物发现与毒理学</div><div class="bar-track"><div class="bar" style="--w: 58%;"></div></div><div class="bar-val">9.0%</div></div>
+        <div class="bar-row"><div class="bar-label">代谢与器官疾病</div><div class="bar-track"><div class="bar" style="--w: 58%;"></div></div><div class="bar-val">9.0%</div></div>
+        <div class="bar-row"><div class="bar-label">实验室与动物研究设计</div><div class="bar-track"><div class="bar" style="--w: 58%;"></div></div><div class="bar-val">9.0%</div></div>
+        <div class="bar-row"><div class="bar-label">癌症生物学与肿瘤治疗</div><div class="bar-track"><div class="bar" style="--w: 55%;"></div></div><div class="bar-val">8.5%</div></div>
+        <div class="bar-row"><div class="bar-label">免疫细胞与炎症</div><div class="bar-track"><div class="bar" style="--w: 52%;"></div></div><div class="bar-val">8.0%</div></div>
+        <div class="bar-row"><div class="bar-label">成像与结构生物学</div><div class="bar-track"><div class="bar" style="--w: 48%;"></div></div><div class="bar-val">7.5%</div></div>
+        <div class="bar-row"><div class="bar-label">微生物学与传染病</div><div class="bar-track"><div class="bar" style="--w: 48%;"></div></div><div class="bar-val">7.5%</div></div>
+        <div class="bar-row"><div class="bar-label">科学写作与文献工作</div><div class="bar-track"><div class="bar" style="--w: 42%;"></div></div><div class="bar-val">6.5%</div></div>
+      </div>
+
+      <div class="card strong">
+        <h3>混合栈：通用模型 + 专业模型 + 工具</h3>
+        <p>报告在化学与生物学部分反复强调混合栈的重要性：通用语言模型负责计划、解释和协调；图神经网络（Graph Neural Network, GNN）、蛋白质/生物序列基础模型、结构预测模型等负责专业预测；检索、数据库 API 与可执行代码负责证据和验证。</p>
+        <p>这一结构使 AI 不只是“回答问题”，而是参与从问题定义、数据调用、模型预测、结果解释到下一步实验设计的完整工作流。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="cases">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Use Case Profiles</div>
+        <h2>使用案例：从数学证明到黑洞物理，再到蛋白工程</h2>
+        <p class="lead">报告通过三组案例展示 AI 如何作为科研协作者：它不是替代科学家，而是帮助科学家更快穿越计算、推导、文献与实验设计中的“迷宫”。</p>
+      </div>
+
+      <div class="card strong profile">
+        <div class="avatar">R</div>
+        <div>
+          <span class="tag">数学</span><span class="tag">优化</span><span class="tag">Nesterov acceleration</span>
+          <h3>Ernest Ryu：AI 帮助把研究“走迷宫”的速度提高 3-10 倍</h3>
+          <p>Ernest Ryu 在 2023 年出于好奇开始使用 ChatGPT。他的学术工作聚焦优化，即支撑现代经济中高效、可靠算法的数学基础，从物流规划到飞机机翼稳定性都与之相关。</p>
+          <p>他最初测试模型能否把现实世界的“文字题”转成精确优化模型，并包含隐藏约束，再交给求解器。早期模型在处理复杂约束时常遗漏条件，难以应对大型现实排程问题。</p>
+          <p>转折发生在推理模型出现以及 OpenAI 在国际数学奥林匹克（IMO）达到金牌级表现之后。Ryu 再次测试同类排程问题，模型已经能够可靠解决。他进一步把 LLM 用于日常数学工作，例如在写讲义时让 ChatGPT 给出他知道为真但暂时想不起的证明。</p>
+          <p>最终，他把模型用于一个与 Nesterov 加速有关的研究问题。连续三晚，他在模型给出带计算错误的初始证明后不断迭代：修正错误，保留正确中间步骤，放弃死路，推动模型尝试其他路线。Ryu 把这个过程比作在迷宫中探索，而 ChatGPT 让他“跑迷宫”的速度提高了 3-10 倍。</p>
+          <p>第三晚，模型做出一个小但关键的跳跃，帮助解锁证明。Ryu 多次核查并让学生验证后，将结果分享给优化社区。随后，连续时间结果通过一次提示被转化为离散时间算法陈述，形成了足以发表的一页式新核心。</p>
+        </div>
+      </div>
+
+      <div class="card strong profile">
+        <div class="avatar">L</div>
+        <div>
+          <span class="tag">物理</span><span class="tag">广义相对论</span><span class="tag">黑洞</span>
+          <h3>Alex Lupsasca：从礼貌怀疑到加入 OpenAI</h3>
+          <p>物理学家 Alex Lupsasca 最初以“礼貌的怀疑”和一组测试接触 AI。2025 年初，他认为 ChatGPT 对常规行政任务有帮助，也能把粗糙草稿整理成更清晰的科学文本，但并不认为它能处理物理学的核心工作：把物理定律转化为具体、可验证的预测。</p>
+          <p>改变他看法的是模型在研究生习题级物理问题上的速度与能力。例如，从黑洞附近电磁场的经典模型 Wald solution 出发，求事件视界处的磁场强度；初级研究生可能需要数小时推导，模型却在数秒内给出完整推导。</p>
+          <p>更重要的测试来自他自己的研究。他曾推导出控制黑洞潮汐响应方程的新“隐藏对称性”，解释一个著名潮汐效应为何消失。当他把方程交给 GPT-5 Pro 并只给出很少指导时，模型思考约 18 分钟后返回了同样的对称生成元，而这是他多年训练、数月直接研究才获得的结果。</p>
+          <p>此后，他又与持怀疑态度的同事重复类似模式：在 CERN，同事给出一个通常给博士生一周解决的习题式问题，模型数分钟内给出详细解答；在 Aspen，天体物理学家 Elliot Quataert 用一个类似谜题的瞬变信号试图“骗”它，模型正确识别为磁星，并列出后续观测与摘要草案。</p>
+          <p>这一路径使 Lupsasca 加入 OpenAI。他现在推动从一次性成功走向可重复科研加速：更好的论文阅读与解释工具、比单一聊天窗口更强的工作流，以及把前沿物理嵌入模型能力的训练设置。</p>
+        </div>
+      </div>
+
+      <div class="card strong profile">
+        <div class="avatar">B</div>
+        <div>
+          <span class="tag">生物</span><span class="tag">长寿科学</span><span class="tag">蛋白工程</span>
+          <h3>RetroBioSciences：用 GPT-4B Micro 压缩细胞重编程优化周期</h3>
+          <p>RetroBioSciences 关注一个长寿科学核心挑战：让细胞再年轻化（cell rejuvenation）变得实用且可规模化。关键杠杆之一是用四个 OSKM 因子进行细胞重编程，这可以重置部分细胞年龄特征，但实际过程缓慢且效率低，尤其在老年细胞中更明显。</p>
+          <p>OpenAI 与 RetroBio 合作构建了一个面向蛋白的基础模型 GPT-4B Micro，用于广泛蛋白工程任务，包括通过中间填充（in-filling）进行定向蛋白编辑、三维结构生成和蛋白折叠。模型不只训练于序列，还在多种生物“模态”上进行中期训练，包括蛋白序列、三维结构 token、多序列比对中的共进化信息、蛋白互作数据和相关科学文本。</p>
+          <p>在合作中，模型被用于“实验室在环”（lab-in-the-loop）工作流以改造更好的 OSKM 因子。模型生成数千个候选序列，再通过保留关键结构域、维持多样性等方式筛选到实验室可测试的数百个变体。RetroBio 合成这些变体 DNA，通过慢病毒构建体送入人类成纤维细胞，重编程约 10-14 天，并用细胞表面标记和测序排序。</p>
+          <p>早期读数显示，模型生成变体带来更快形态变化和更好的多能性标志物表达；对部分靶标而言，大约一半模型生成变体优于野生型蛋白，即使序列与天然对应物差异巨大。后续实验显示，部分最佳变体性能可比甚至超过先前最佳工程因子，并形成更大、更多的类干细胞集落。</p>
+          <p>报告认为，这一合作展示了 AI 赋能生物学的具体模式：模型帮助在庞大蛋白设计空间中更高效搜索，提高实验成功率，并把迭代周期从多年压缩到数月。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="policy">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Policy</div>
+        <h2>政策建议：加速 AI 赋能科学</h2>
+        <p class="lead">报告将重点放在通过 AI 强化美国科学创新，以确保 2026 年成为“AI 与科学之年”。OpenAI 建议围绕四大支柱形成持续领先：AI 技能、数据访问、现代 AI 基础设施，以及为科学共同体提供规模化前沿 AI 系统访问。</p>
+      </div>
+
+      <div class="grid-4">
+        <div class="card strong"><h3>1. 扩大 AI 技能培养</h3><p>启动国家 AI 劳动力计划（National AI Workforce Program）：支持 K-12 AI 课程，扩大社区学院和大学中的 AI 学位与证书项目，并为中期职业转型者提供短期培训。</p></div>
+        <div class="card strong"><h3>2. 开放数据与研究合作</h3><p>建立国家 AI 研究资源（National AI Research Resource），为学术与非营利研究者提供大规模算力和高质量数据集；机构应识别高价值数据集并以机器可读形式开放，同时通过去标识化保护敏感数据。</p></div>
+        <div class="card strong"><h3>3. 现代化 AI 基础设施</h3><p>把 AI 基础设施视为战略性国家资产，包括能源、算力和芯片。通过 CHIPS and Science Act 等授权建立 AI 基础设施枢纽，为高容量数据中心和能源投资提供优先支持并简化许可。</p></div>
+        <div class="card strong"><h3>4. 规模化访问前沿 AI</h3><p>建立国家前沿 AI 访问配额（National Frontier AI Access Allocation），让大学、国家实验室和非营利机构研究者能以足够规模访问先进 AI 系统，支持持续实验、方法开发和验证。</p></div>
+      </div>
+
+      <div class="table-wrap" style="margin-top: 26px;">
+        <table>
+          <thead><tr><th>政策支柱</th><th>报告建议</th><th>预期作用</th></tr></thead>
+          <tbody>
+            <tr><td>AI 技能</td><td>课程开发、教师培训、AI Skills Corps 或社区培训基金，通过图书馆、就业中心和学校提供免费 AI 训练。</td><td>扩大未来科学家和劳动力的 AI 使用能力。</td></tr>
+            <tr><td>数据访问</td><td>建立集中式 AI 训练数据目录（AI Training Data Catalog），默认向真实研究用途开放，同时保护隐私与安全。</td><td>让 AI 辅助科研从零散数据转向可复用、可审计数据基础设施。</td></tr>
+            <tr><td>基础设施</td><td>发展 AI 创新区、高容量数据中心、能源投资和半导体供应链，确保美国本土算力充足。</td><td>避免科学进展受制于能源短缺或算力瓶颈。</td></tr>
+            <tr><td>前沿访问</td><td>把 AI 使用视为类似望远镜时间或超算小时的国家共享科研资源，并扩大 SBIR 项目覆盖 AI 采用。</td><td>让更广泛研究者和本地产业能够接入前沿 AI 能力，促进技术扩散。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">About</div>
+        <h2>关于 OpenAI</h2>
+      </div>
+      <div class="card strong">
+        <p>报告在结尾把人工智能比作电力：它会改变人们的生活、工作以及彼此互动的方式。OpenAI 表示，其使命是确保通用人工智能（Artificial General Intelligence, AGI）造福全人类。</p>
+        <p>报告称，OpenAI 正在构建能帮助人们解决困难问题的 AI，因为通过协助解决困难问题，AI 可以惠及尽可能多的人：推动更多科学发现、更好的医疗与教育，以及更高生产力。OpenAI 还称，其免费可用的智能已被全球超过 8 亿人使用，其中包括 400 万开发者。</p>
+        <p class="note">说明：本网页为上传英文报告《AI as a Scientific Collaborator》（January 2026）的中文翻译与结构化整理版；其中数据、案例和表述均按原报告内容转写，并以“报告称/指出”的方式呈现。</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p><strong>AI作为科学协作者｜中文网页整理版</strong></p>
+      <p class="note">页面风格：蓝白专业风格、卡片化分区、数据条形图与政策表格；适合商业或学术汇报阅读。</p>
+    </div>
+  </footer>
+</body>
+</html>
